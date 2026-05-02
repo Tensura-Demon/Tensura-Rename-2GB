@@ -1,16 +1,18 @@
-# ------------------------- #
-API_ID = 1234567
-API_HASH = "your_api_hash"
-BOT_TOKEN = "your_bot_token"
-# ------------------------- #
-# Don't Remove Credit 
-# Ask Doubt @AU_Bot_Discussion 
-# Owner @Mr_Mohammed_29 
-# ------------------------- #
-OWNER_ID = 123456789
-# ------------------------- #
-MONGO_URI = "your_mongodb_uri"
-# ------------------------- #
-# Don't Remove Credit 
-# Ask Doubt @AU_Bot_Discussion 
-# Owner @Mr_Mohammed_29 
+import os
+
+# ---------------- BOT CORE ----------------
+API_ID = int(os.getenv("API_ID"))
+API_HASH = os.getenv("API_HASH")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+OWNER_ID = int(os.getenv("OWNER_ID"))
+
+# ---------------- DATABASE ----------------
+MONGO_URI = os.getenv("MONGO_URI")
+
+# ---------------- CHANNELS ----------------
+# Force users to join updates channel (optional feature)
+UPDATE_CHANNEL = os.getenv("UPDATE_CHANNEL")  # example: @yourchannel
+
+# Log channel for bot activities (uploads, errors, users)
+LOG_CHANNEL = os.getenv("LOG_CHANNEL")  # example: -100xxxxxxxxxx
