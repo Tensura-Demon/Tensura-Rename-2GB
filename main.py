@@ -378,6 +378,15 @@ async def cb(_, query: CallbackQuery):
                 "• FFmpeg Processing"
             )
 
+        elif data == "source":
+            await query.answer()
+            await query.message.edit_text(
+                "💻 Source Code",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🔗 Open Source", url="https://github.com/Naruto-Uzumaki-Yt/rename-bot")]
+             ])
+            )
+
         elif data == "help":
             await query.message.edit_text(
                 "📖 Help Menu\n\n"
