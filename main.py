@@ -262,13 +262,11 @@ async def rename(_, msg):
     original_name = file.file_name if hasattr(file, "file_name") else "video.mp4"
     new_name = f"{prefix}{original_name}{suffix}"
 
-    status = await msg.reply("📥 Downloading...")
+    status = await msg.reply("⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡\n📥 Downloading...")
 
     file_path = await msg.download(file_name=original_name)
 
     output = f"temp_{user_id}_{original_name}"
-
-    await status.edit("🎬 Applying metadata...")
 
     final = add_metadata(
         file_path,
@@ -281,15 +279,19 @@ async def rename(_, msg):
         meta.get("video", "")
     )
 
-    await status.edit("📤 Uploading...")
+    await status.edit("⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡\n📤 Uploading...")
 
     async def prog(current, total):
         try:
             percent = int(current * 100 / total)
-            await status.edit(f"📤 Uploading... {percent}%")
+
+            filled = int(percent / 10)
+            bar = "⬢" * filled + "⬡" * (10 - filled)
+
+            await status.edit(f"{bar}\n📤 Uploading... {percent}%")
         except:
             pass
-
+            
     await msg.reply_document(
         document=final,
         file_name=new_name,
