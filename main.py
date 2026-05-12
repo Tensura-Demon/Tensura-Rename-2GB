@@ -130,6 +130,9 @@ print("LOG_CHANNEL:", LOG_CHANNEL)
 print("UPDATE_CHANNEL:", UPDATE_CHANNEL)
 
 from database import *
+
+dump_channels = {}
+
 from utils import progress_bar
 from ffmpeg_utils import add_metadata
 from keep_alive import keep_alive
@@ -228,6 +231,25 @@ def generate_video_thumb(video_path, output):
         return output
     except:
         return None
+
+#---------------------------#
+
+def get_video_metadata(path):
+    try:
+        probe = ffmpeg.probe(path)
+        video_stream = next(
+            (s for s in probe["streams"] if s["codec_type"] == "video"),
+            None
+        )
+
+        duration = int(float(probe["format"]["duration"])) if "duration" in probe["format"] else 0
+        width = int(video_stream["width"]) if video_stream else 0
+        height = int(video_stream["height"]) if video_stream else 0
+
+        return duration, width, height
+    except Exception as e:
+        print("Metadata Error:", e)
+        return 0, 0, 0
 
 # ------------------------- #
 
@@ -408,54 +430,6 @@ async def metadata(_, msg):
         disable_web_page_preview=True
     )
 
-# -----------MY PlAN-------------- #
-@bot.on_message(filters.command("myplan"))
-async def myplan(_, msg):
-
-    user = await get_user(msg.from_user.id) or {}
-    status = "Premium" if user.get("premium") else "Free"
-
-    if status == "Premium":
-        text = f"✨ ʜᴇʏ {msg.from_user.first_name},\n\n"
-        text += "💎 Yᴏᴜ ᴄᴜʀʀᴇɴᴛʟʏ ʜᴀᴠᴇ ᴀɴ ᴀᴄᴛɪᴠᴇ **Pʀᴇᴍɪᴜᴍ Pʟᴀɴ** ✔\n"
-        text += "❤️ Tʜᴀɴᴋs Fᴏʀ Bᴜʏɪɴɢ Pʀᴇᴍɪᴜᴍ!"
-    else:
-        text = f"ʜᴇʏ {msg.from_user.first_name},\n\n"
-        text += "𝒀𝒐𝒖 𝑫𝒐 𝑵𝒐𝒕 𝑯𝒂𝒗𝒆 𝑨𝒏𝒚 𝑨𝒄𝒕𝒊𝒗𝒆 𝑷𝒓𝒆𝒎𝒊𝒖𝒎 𝒑𝒍𝒂𝒏𝒔,\n"
-        text += "𝑰𝒇 𝒀𝒐𝒖 𝑾𝒂𝒏𝒕 𝑻𝒐 𝑻𝒂𝒌𝒆 𝑷𝒓𝒆𝒎𝒊𝒖𝒎 𝑻𝒉𝒆𝒏 𝑪𝒍𝒊𝒄𝒌 𝑶𝒏 𝑩𝒆𝒍𝒐𝒘 𝑩𝒖𝒕𝒕𝒐𝒏 👇"
-
-    buttons = InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("○ Bᴜʏ Pʀᴇᴍɪᴜᴍ ○", url="https://t.me/Mr_Mohammed_29")
-        ]
-    ])
-
-    await msg.reply(text, reply_markup=buttons)
-# ------------ plans ---------------#
-@bot.on_message(filters.command("plans"))
-async def plans(_, msg):
-
-    text = f"""
-👋 ʜᴇʏ {msg.from_user.first_name},
-
-🎁 ᴘʀᴇᴍɪᴜᴍ ғᴇᴀᴛᴜʀᴇs :
-
-››  ᴜɴʟɪᴍɪᴛᴇᴅ ʀᴇɴᴀᴍɪɴɢ: ɴᴏ ʟɪᴍɪᴛꜱ ᴏɴ ꜰɪʟᴇꜱ  
-››  ᴇᴀʀʟʏ ᴀᴄᴄᴇꜱꜱ: ᴛʀʏ ɴᴇᴡ ꜰᴇᴀᴛᴜʀᴇꜱ ꜰɪʀꜱᴛ  
-››  ꜰᴀꜱᴛᴇʀ ꜱᴘᴇᴇᴅ: Qᴜɪᴄᴋᴇʀ ᴅᴏᴡɴʟᴏᴀᴅꜱ ᴀɴᴅ ᴜᴘʟᴏᴀᴅꜱ  
-
-➛ ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴀᴄᴛɪᴠᴇ ᴘʟᴀɴ ʙʏ ᴜꜱɪɴɢ : /myplan
-"""
-
-    buttons = InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("○ Uᴘɢʀᴀᴅᴇ Tᴏ Pʀᴇᴍɪᴜᴍ ○", url="https://t.me/Mr_Mohammed_29")
-        ]
-    ])
-
-    await msg.reply(text, reply_markup=buttons)
-
-    
 # ---------------- METADATA SETTERS ----------------
 @bot.on_message(filters.command("settitle"))
 async def settitle(_, msg):
@@ -515,6 +489,45 @@ async def setvideo(_, msg):
     text = msg.text.split(None, 1)[1]
     await set_user(msg.from_user.id, {"video": text})
     await msg.reply("✅ Vɪᴅᴇᴏ Mᴇᴛᴀᴅᴀᴛᴀ Sᴀᴠᴇᴅ")
+
+# ---------------- DUMP CHANNEL ---------------- #
+
+@bot.on_message(filters.command("setdump"))
+async def set_dump(_, msg):
+
+    if len(msg.command) < 2:
+        return await msg.reply(
+            "Usage:\n/setdump -100xxxxxxxxxx"
+        )
+
+    channel_id = msg.command[1]
+
+    dump_channels[msg.from_user.id] = channel_id
+
+    await msg.reply(
+        f"✅ Dump Channel Saved\n\nID: `{channel_id}`"
+    )
+
+@bot.on_message(filters.command("chkdump"))
+async def chk_dump(_, msg):
+
+    channel_id = dump_channels.get(msg.from_user.id)
+
+    if not channel_id:
+        return await msg.reply("❌ No Dump Channel Added")
+
+    await msg.reply(
+        f"📦 Current Dump Channel:\n`{channel_id}`"
+    )
+
+@bot.on_message(filters.command("deldump"))
+async def del_dump(_, msg):
+
+    if msg.from_user.id in dump_channels:
+        del dump_channels[msg.from_user.id]
+
+    await msg.reply("✅ Dump Channel Deleted")
+            
 # ---------------- THUMB ----------------
 @bot.on_message(filters.photo)
 async def save_thumb(_, msg):
@@ -565,51 +578,7 @@ async def cancel_cmd(_, msg):
     else:
         await msg.reply("⚠️ Nᴏ Aᴄᴛɪᴠᴇ Tᴀsᴋ Tᴏ Cᴀɴᴄᴇʟ")
 
-# ---------------- ADMIN ----------------
-def admin(uid):
-    return uid == OWNER_ID
-
-@bot.on_message(filters.command("addpremium"))
-async def addprem(_, msg):
-
-    if not admin(msg.from_user.id):
-        return
-
-    if len(msg.command) < 3:
-        return await msg.reply("𝗿𝗲𝗽𝗹𝘆 𝘄𝗶𝘁𝗵 /addpremium 𝘂𝘀𝗲𝗿 𝗶𝗱 𝗱𝘂𝗿𝗮𝘁𝗶𝗼𝗻 (𝟭𝗵𝗿, 𝟳𝗱, 𝟯𝟬𝗱, 𝟭𝘆𝗿)")
-
-    uid = int(msg.text.split()[1])
-    duration = msg.text.split()[2]
-
-    seconds = parse_duration(duration)
-
-    if not seconds:
-        return await msg.reply("𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗙𝗼𝗿𝗺𝗮𝘁 ❌ 𝗨𝘀𝗲 : 1hr / 7d / 30d / 1y")
-
-    expiry = int(time.time()) + seconds
-
-    await set_user(uid, {
-        "premium": True,
-        "premium_expiry": expiry
-    })
-
-    await msg.reply(f"""
-🎉 𝗬𝗼𝘂 𝗮𝗿𝗲 𝗻𝗼𝘄 𝗮 𝗣𝗿𝗲𝗺𝗶𝘂𝗺 𝗨𝘀𝗲𝗿!
-
-👤 Usᴇʀ ID: {uid}
-⏳ Dᴜʀᴀᴛɪᴏɴ: {duration}
-🕒 Exᴘɪʀᴇs Iɴ: {duration}
-
-✨ Sᴛᴀᴛᴜs: 𝗣𝗿𝗲𝗺𝗶𝘂𝗺 𝗔𝗰𝘁𝗶𝘃𝗮𝘁𝗲𝗱 ✅️
-""")
-
-@bot.on_message(filters.command("remove_premium"))
-async def remprem(_, msg):
-    if not admin(msg.from_user.id):
-        return
-    uid = int(msg.text.split()[1])
-    await set_user(uid, {"premium": False})
-    await msg.reply("𝗣𝗿𝗲𝗺𝗶𝘂𝗺 𝗥𝗲𝗺𝗼𝘃𝗲𝗱")
+#----------- Status ------------#
 
 @bot.on_message(filters.command("status"))
 async def status(_, msg):
@@ -633,7 +602,6 @@ async def status(_, msg):
 ⏱ Uᴘᴛɪᴍᴇ: {get_uptime()}
 ⚡ Pɪɴɢ: {ping}
 🧠 Mᴇᴍᴏʀʏ Usᴀɢᴇ: {get_memory()}
-💎 Pʀᴇᴍɪᴜᴍ: {premium}
 🧾 Vᴇʀsɪᴏɴ: v3.0
 """
 
@@ -684,6 +652,7 @@ async def logs(_, msg):
 
     except:
         await msg.reply("𝗡𝗢 𝗟𝗢𝗚𝗦 𝗙𝗢𝗨𝗡𝗗 ❌")
+        
 # -------------BROADCAST------------ #
 @bot.on_message(filters.command("broadcast"))
 async def broadcast(_, msg):
@@ -722,6 +691,7 @@ async def broadcast(_, msg):
 
     except Exception as e:
         await msg.reply(f"❌ 𝗕𝗿𝗼𝗮𝗱𝗰𝗮𝘀𝘁 𝗘𝗿𝗿𝗼𝗿: {e}")
+        
 # ---------- Callback --------------- #
 @bot.on_callback_query()
 async def cb(_, query: CallbackQuery):
@@ -778,7 +748,7 @@ async def cb(_, query: CallbackQuery):
             await query.message.edit_text(
                 "• 𝗥𝗲𝗽𝗼 •",
         reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("🔗 𝗢𝗽𝗲𝗻 𝗦𝗼𝘂𝗿𝗰𝗲", url="https://github.com/MD-Developer-yt/Rename-Bot-2GB")]
+            [InlineKeyboardButton("🔗 𝗢𝗽𝗲𝗻 𝗦𝗼𝘂𝗿𝗰𝗲", url="https://github.com/Naruto-Uzumaki-Yt/rename-bot")]
              ])
             )
 
@@ -845,7 +815,6 @@ async def cb(_, query: CallbackQuery):
         ⏱ Uᴘᴛɪᴍᴇ: {get_uptime()}
         ⚡ Pɪɴɢ: {ping}
         🧠 Mᴇᴍᴏʀʏ Usᴀɢᴇ: {get_memory()}
-        💎 Pʀᴇᴍɪᴜᴍ: {premium}
         🧾 Vᴇʀsɪᴏɴ: v3.0
         """
 
@@ -953,7 +922,12 @@ async def cb(_, query: CallbackQuery):
 
             original_name = safe_name(original_name)
 
-            new_name = f"{prefix}{original_name}{suffix}"
+            base_name, ext = os.path.splitext(original_name)
+
+            if caption:
+                new_name = f"{caption}{ext}"
+            else:
+                new_name = f"{prefix}{base_name}{suffix}{ext}"
             output = f"temp_{user_id}_{original_name}"
             
             final = add_metadata(
@@ -992,6 +966,11 @@ async def cb(_, query: CallbackQuery):
 
         # -------- UPLOAD START -------- #
             await query.message.edit_text("📤 Uᴘʟᴏᴀᴅɪɴɢ sᴛᴀʀᴛᴇᴅ...")
+
+            duration, width, height = (0, 0, 0)
+
+            if is_video:
+                duration, width, height = get_video_metadata(final)
 
             start_time = time.time()
             last_edit = 0
@@ -1032,27 +1011,63 @@ async def cb(_, query: CallbackQuery):
                 if mode == "video":
                     await msg.reply_video(
                         video=final,
-                        caption=caption,
-                        thumb=thumb_path,
-                        supports_streaming=True,
-                        progress=prog
-                    )
-                else:
-                    await msg.reply_document(
-                        document=final,
                         file_name=new_name,
                         caption=caption,
                         thumb=thumb_path,
+                        duration=duration,
+                        width=width,
+                        height=height,
+                        supports_streaming=True,
                         progress=prog
-                    )
+                    )  
+
+                    dump_id = dump_channels.get(user_id)
+
+                    if dump_id:
+                        try:
+                            await bot.copy_message(
+                                chat_id=int(dump_id),
+                  
+            from_chat_id=msg.chat.id,
+                                message_id=msg.id
+                            )
+
+                        except Exception as e:
+                            print("Dump Error:", e)
+
+                else:
+                     await msg.reply_document(
+                         document=final,
+                         file_name=new_name,
+                         caption=caption,
+                         thumb=thumb_path,
+                         progress=prog
+                     )
+        
+                     dump_id = dump_channels.get(user_id)
+
+                     if dump_id:
+                         try:
+                              await bot.send_document(
+                                  chat_id=int(dump_id),
+                                  document=final,
+                                  file_name=new_name,
+                                  caption=caption,
+                                  thumb=thumb_path
+                              )  
+
+                         except Exception as e:
+                             print("Dump Error:", e)
+
             except Exception:
                 await query.message.edit_text("❌ Uᴘʟᴏᴀᴅ Cᴀɴᴄᴇʟʟᴇᴅ")
                 return
-                
+    
                 try:
                     await query.message.edit_text(
                         "Eʀʀᴏʀ ‼️, Cᴏɴᴛᴀᴄᴛ ᴅᴇᴠᴇʟᴏᴘᴇʀ @Mr_Mohammed_29"
                     )
+
                 except:
                     pass
 
