@@ -18,8 +18,12 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&
 LOG_CHANNEL=-100xxxxxxxxxx
 
 UPDATE_CHANNEL=https://t.me/Anime_UpdatesAU
-----------------------
-
+------------------------
+------------------------
 **Developer : @Mr_Mohammed_29**
+
 **Updates: @Anime_UpdatesAU**
+
 **Support Group : @AU_Bot_Discussion**
+
+------------------------
