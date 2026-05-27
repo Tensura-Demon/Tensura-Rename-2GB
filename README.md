@@ -43,6 +43,8 @@
 
 ```txt
 start - 𝖈ʜᴇᴄᴋ 𝖎 𝖆ᴍ ʟɪᴠᴇ.
+autorename - ᴛᴏ sᴇᴛ ᴀᴜᴛᴏʀᴇɴᴀᴍᴇ ғᴏʀᴍᴀᴛ
+ub - sᴇᴛ ʙᴏᴛ ᴛᴏᴋᴇɴ ғᴏʀ ᴜᴘʟᴏᴀᴅɪɴɢ
 cancel - ᴛᴏ ᴄʟᴇᴀʀ ᴛᴀsᴋs
 set_caption - sᴇᴛ ᴄᴜsᴛᴏᴍ ᴄᴀᴘᴛɪᴏɴ.
 see_caption - ᴠɪᴇᴡ ʏᴏᴜʀ ᴄᴀᴘᴛɪᴏɴ.
@@ -54,6 +56,7 @@ set_suffix - sᴇᴛ sᴜғғɪx.
 see_suffix - ᴠɪᴇᴡ sᴜғғɪx.
 del_suffix - ᴅᴇʟᴇᴛᴇ sᴜғғɪx.
 metadata - sᴇᴛ ᴠɪᴅᴇᴏ/ᴀᴜᴅɪᴏ ᴍᴇᴛᴀᴅᴀᴛᴀ.
+see_metadata - ᴛᴏ sᴇᴇ ʏᴏᴜʀ ᴄᴜsᴛᴏᴍ ᴍᴇᴛᴀᴅᴀᴛᴀ
 view_thumb - ᴠɪᴇᴡ ᴛʜᴜᴍʙɴᴀɪʟ.
 del_thumb - ᴅᴇʟᴇᴛᴇ ᴛʜᴜᴍʙɴᴀɪʟ.
 setdump - sᴇᴛ ᴅᴜᴍᴘ ᴄʜᴀɴɴᴇʟ.
@@ -63,6 +66,7 @@ leaderboard - sʜᴏᴡ ᴛᴏᴘ ᴜsᴇʀs.
 info - sʜᴏᴡ ᴜsᴇʀ ɪɴғᴏ.
 donate - ᴅᴏɴᴀᴛɪᴏɴ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.
 chatid - sʜᴏᴡ ᴄᴜʀʀᴇɴᴛ ᴄʜᴀᴛ ɪᴅ.
+stats - ᴄʜᴇᴄᴋ ᴅᴇᴛᴀɪʟᴇᴅ ʙᴏᴛ sᴛᴀᴛɪsᴛɪᴄs
 fsub - ᴀᴅᴅ ғᴏʀᴄᴇ sᴜʙsᴄʀɪʙᴇ ᴄʜᴀɴɴᴇʟ (ᴀᴅᴍɪɴ).
 nofsub - ʀᴇᴍᴏᴠᴇ ғᴏʀᴄᴇ sᴜʙsᴄʀɪʙᴇ ᴄʜᴀɴɴᴇʟ (ᴀᴅᴍɪɴ).
 freemode - ᴇɴᴀʙʟᴇ ғʀᴇᴇ ᴍᴏᴅᴇ (ᴀᴅᴍɪɴ).
