@@ -21,6 +21,35 @@
 
 **Demo Bot** : <a href="https://t.me/Jinwoo_Rename_bot"><b>Jinwoo Rename bot</b></a>
 <details>
+
+✨ Features
+
+- 📂 Rename files with custom filenames
+- 🎬 Upload as Video or Document mode
+- 📝 Custom caption support
+- 🖼️ Custom thumbnail support
+- 🔖 Custom prefix & suffix support
+- 🏷️ Advanced metadata editing
+- 🤖 Multi Upload Bot Support ("/ub")
+- 📥 Real-time download progress
+- 📤 Real-time upload progress
+- 🎥 Automatic video thumbnail generation
+- 📦 Personal dump channel support
+- 🔒 Force subscribe system
+- 🚫 User ban & unban system
+- 📢 Broadcast messages to all users
+- 📊 Live bot status monitoring
+- 📈 User leaderboard system
+- 👤 Detailed user information
+- ❌ Task cancellation support
+- 💾 MongoDB database integration
+- ⚡ Fast and reliable processing
+- 📱 Mobile-friendly interface
+- 🛡️ Admin control panel
+- 📜 Bot activity logging
+- 🚀 24/7 deployment support
+- 📁 Supports files up to 2GB
+
 <summary><b>Click Here To Expand Variables</b></summary>
 
 | Variable        | Description                                |
