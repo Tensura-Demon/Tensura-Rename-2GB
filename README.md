@@ -39,6 +39,7 @@
 - 🚫 User ban & unban system
 - 📢 Broadcast messages to all users
 - 📊 Live bot status monitoring
+- 📊 Live bot Added Bots list 
 - 📈 User leaderboard system
 - 👤 Detailed user information
 - ❌ Task cancellation support
@@ -71,8 +72,8 @@
 
 ```txt
 start - 𝖈ʜᴇᴄᴋ 𝖎 𝖆ᴍ ʟɪᴠᴇ.
-ub - sᴇᴛ ʙᴏᴛ ᴛᴏᴋᴇɴ ғᴏʀ ᴜᴘʟᴏᴀᴅɪɴɢ
 cancel - ᴛᴏ ᴄʟᴇᴀʀ ᴛᴀsᴋs
+ub - sᴇᴛ ʙᴏᴛ ᴛᴏᴋᴇɴ ғᴏʀ ᴜᴘʟᴏᴀᴅɪɴɢ
 set_caption - sᴇᴛ ᴄᴜsᴛᴏᴍ ᴄᴀᴘᴛɪᴏɴ.
 see_caption - ᴠɪᴇᴡ ʏᴏᴜʀ ᴄᴀᴘᴛɪᴏɴ.
 del_caption - ᴅᴇʟᴇᴛᴇ ᴄᴀᴘᴛɪᴏɴ.
@@ -89,20 +90,22 @@ del_thumb - ᴅᴇʟᴇᴛᴇ ᴛʜᴜᴍʙɴᴀɪʟ.
 setdump - sᴇᴛ ᴅᴜᴍᴘ ᴄʜᴀɴɴᴇʟ.
 chkdump - ᴄʜᴇᴄᴋ ᴅᴜᴍᴘ ᴄʜᴀɴɴᴇʟ.
 deldump - ᴅᴇʟᴇᴛᴇ ᴅᴜᴍᴘ ᴄʜᴀɴɴᴇʟ.
-leaderboard - sʜᴏᴡ ᴛᴏᴘ ᴜsᴇʀs.
-info - sʜᴏᴡ ᴜsᴇʀ ɪɴғᴏ.
-donate - ᴅᴏɴᴀᴛɪᴏɴ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.
-chatid - sʜᴏᴡ ᴄᴜʀʀᴇɴᴛ ᴄʜᴀᴛ ɪᴅ.
+renamed - ᴛᴏ ᴠɪᴇᴡ ʏᴏᴜʀ ʀᴇɴᴀᴍᴇᴅ sᴛᴀᴛs
+leaderboard - Sʜᴏᴡ ᴛᴏᴘ ᴜsᴇʀs
+info - Sʜᴏᴡ ᴜsᴇʀ ɪɴғᴏ
+donate - Dᴏɴᴀᴛɪᴏɴ ɪɴғᴏʀᴍᴀᴛɪᴏɴ
+chatid - Sʜᴏᴡ ᴄᴜʀʀᴇɴᴛ ᴄʜᴀᴛ ID
 stats - ᴄʜᴇᴄᴋ ᴅᴇᴛᴀɪʟᴇᴅ ʙᴏᴛ sᴛᴀᴛɪsᴛɪᴄs
-fsub - ᴀᴅᴅ ғᴏʀᴄᴇ sᴜʙsᴄʀɪʙᴇ ᴄʜᴀɴɴᴇʟ (ᴀᴅᴍɪɴ).
-nofsub - ʀᴇᴍᴏᴠᴇ ғᴏʀᴄᴇ sᴜʙsᴄʀɪʙᴇ ᴄʜᴀɴɴᴇʟ (ᴀᴅᴍɪɴ).
-freemode - ᴇɴᴀʙʟᴇ ғʀᴇᴇ ᴍᴏᴅᴇ (ᴀᴅᴍɪɴ).
-disablemode - ᴅɪsᴀʙʟᴇ ʙᴏᴛ ᴍᴏᴅᴇ (ᴀᴅᴍɪɴ).
-ban - ʙᴀɴ ᴜsᴇʀ (ᴀᴅᴍɪɴ).
-unban - ᴜɴʙᴀɴ ᴜsᴇʀ (ᴀᴅᴍɪɴ).
-status - ᴄʜᴇᴄᴋ ʙᴏᴛ sᴛᴀᴛᴜs (ᴀᴅᴍɪɴ).
+addedbots - ᴠɪᴇᴡ ᴀᴅᴅᴇᴅ ʙᴏᴛs ʟɪsᴛ [Oᴡɴᴇʀ Oɴʟʏ]
+fsub - Aᴅᴅ Fᴏʀᴄᴇ Sᴜʙsᴄʀɪʙᴇ Cʜᴀɴɴᴇʟ [Oᴡɴᴇʀ Oɴʟʏ]
+nofsub - Rᴇᴍᴏᴠᴇ Fᴏʀᴄᴇ Sᴜʙsᴄʀɪʙᴇ Cʜᴀɴɴᴇʟ [Oᴡɴᴇʀ Oɴʟʏ]
+freemode - Eɴᴀʙʟᴇ Fʀᴇᴇ Mᴏᴅᴇ [Oᴡɴᴇʀ Oɴʟʏ]
+disablemode - Dɪsᴀʙʟᴇ Bᴏᴛ Mᴏᴅᴇ [Oᴡɴᴇʀ Oɴʟʏ]
+ban - ʙᴀɴ ᴜsᴇʀ [Oᴡɴᴇʀ Oɴʟʏ]
+unban - ᴜɴʙᴀɴ ᴜsᴇʀ [Oᴡɴᴇʀ Oɴʟʏ]
+status - ᴄʜᴇᴄᴋ ʙᴏᴛ sᴛᴀᴛᴜs [Oᴡɴᴇʀ Oɴʟʏ]
 logs - ᴠɪᴇᴡ ʙᴏᴛ ʟᴏɢs (ᴀᴅᴍɪɴ).
-broadcast - sᴇɴᴅ ᴍᴇssᴀɢᴇ ᴛᴏ ᴀʟʟ ᴜsᴇʀs (ᴀᴅᴍɪɴ).
+broadcast - sᴇɴᴅ ᴍᴇssᴀɢᴇ ᴛᴏ ᴀʟʟ ᴜsᴇʀs [Oᴡɴᴇʀ Oɴʟʏ]
 ```
 ----
 <details><summary>How To Keep Your Bot Alive</summary>
