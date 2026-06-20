@@ -1,3 +1,4 @@
+
 # ------------------------- #
 # Don't Remove Credit 
 # Ask Doubt @AU_Bot_Discussion 
@@ -800,14 +801,6 @@ Mᴀɪɴ ᴍᴏᴅᴇ ɴᴇᴇᴅs ᴍᴀɪɴ ʙᴏᴛ ᴀᴄᴄᴇss ɪғ ʏᴏ
 Pᴇʀsᴏɴᴀʟ ᴍᴏᴅᴇ ɴᴇᴇᴅs ʙᴏᴛʜ ᴍᴀɪɴ ʙᴏᴛ ᴀɴᴅ ᴄʜᴏsᴇɴ ᴜᴘʟᴏᴀᴅ ʙᴏᴛ ᴀs ᴀᴅᴍɪɴs ɪɴ ʏᴏᴜʀ ᴅᴜᴍᴘ ᴄʜᴀɴɴᴇʟ
 """
 
-    text += f"""
-
-🤖 Bot Stats
-
-👥 Users: {users}
-🔐 Added Bots: {bots}
-"""
-
     buttons = InlineKeyboardMarkup([
         [
             InlineKeyboardButton(
@@ -1112,6 +1105,30 @@ async def stats(_, msg):
 """
 
     await temp.edit_text(text)
+    
+# ------------------------- #
+# Don't Remove Credit 
+# Owner @Mr_Mohammed_29
+# ------------------------- #
+
+@bot.on_message(filters.command("addedbots"))
+async def added_bots(_, msg):
+
+    if msg.from_user.id != OWNER_ID:
+        return await msg.reply("🚫 𝗬𝗼𝘂 𝗮𝗿𝗲 𝗻𝗼𝘁 𝗮𝘂𝘁𝗵𝗼𝗿𝗶𝘇𝗲𝗱 𝘁𝗼 𝘂𝘀𝗲 𝘁𝗵𝗶𝘀 𝗰𝗼𝗺𝗺𝗮𝗻𝗱")
+
+    bots = len(upload_bots)
+
+    text = f"""
+<b>🤖 Aᴅᴅᴇᴅ Bᴏᴛs Sᴛᴀᴛs</b>
+
+🤖 Aᴅᴅᴇᴅ Bᴏᴛs: {bots}
+"""
+
+    await msg.reply_text(
+        text,
+        parse_mode=ParseMode.HTML
+    )
 
 # ----------- BAN | UNBAN -------------- #
 
@@ -1599,6 +1616,9 @@ async def cb(_, query: CallbackQuery):
         elif data in ["file", "video"]:
 
             user_id = query.from_user.id  
+
+            await query.message.delete()
+            
             user_mode[user_id] = data
 
             if await is_banned(user_id):
@@ -1621,9 +1641,9 @@ async def cb(_, query: CallbackQuery):
 
             log_event(f"User {user_id} uploaded file: {file.file_name}")
 
-            await query.message.edit_text(
+            progress_msg = await query.message.reply_text(
                 "📥 Dᴏᴡɴʟᴏᴀᴅɪɴɢ...",
-        reply_markup=InlineKeyboardMarkup([
+                reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton("Cᴀɴᴄᴇʟ", callback_data=f"cancel_{user_id}")]
                 ])
             )
@@ -1663,7 +1683,10 @@ async def cb(_, query: CallbackQuery):
 """
 
                 try:
-                    await query.message.edit_text(text, parse_mode=ParseMode.HTML)
+                    await progress_msg.edit_text(
+                        text,
+                        parse_mode=ParseMode.HTML
+                    )
                 except:
                     pass
 
@@ -1688,6 +1711,8 @@ async def cb(_, query: CallbackQuery):
             final_name = caption if caption else file.file_name
 
             base_name, ext = os.path.splitext(file.file_name)
+
+            final_name = final_name.replace("_", " ")
 
             new_name = final_name + ext
 
@@ -1748,7 +1773,10 @@ async def cb(_, query: CallbackQuery):
                 thumb_path = None
 
         # -------- UPLOAD START -------- #
-            await query.message.edit_text("📤 Uᴘʟᴏᴀᴅɪɴɢ sᴛᴀʀᴛᴇᴅ...")
+
+            await progress_msg.edit_text(
+                "📤 Uᴘʟᴏᴀᴅɪɴɢ sᴛᴀʀᴛᴇᴅ..."
+            )
 
             duration, width, height = (0, 0, 0)
 
@@ -1790,7 +1818,10 @@ async def cb(_, query: CallbackQuery):
 """
 
                 try:
-                    await query.message.edit_text(text, parse_mode=ParseMode.HTML)
+                    await progress_msg.edit_text(
+                        text,
+                        parse_mode=ParseMode.HTML
+                    )
                 except:
                     pass
 
@@ -1872,7 +1903,7 @@ async def cb(_, query: CallbackQuery):
                     await upload_client.send_document(
                         chat_id=msg.chat.id,
                         document=final,
-                        file_name=new_name,
+                        file_name=new_name.replace("_", " "),
                         caption=caption,
                         thumb=thumb_path,
                         progress=prog,
@@ -1899,8 +1930,8 @@ async def cb(_, query: CallbackQuery):
             except Exception as e:
 
                 try:
-                    await query.message.edit_text(
-                       f"❌ Uᴘʟᴏᴀᴅ Cᴀɴᴄᴇʟʟᴇᴅ\n\n{str(e)}"
+                    await progress_msg.edit_text(
+                        f"❌ Uᴘʟᴏᴀᴅ Cᴀɴᴄᴇʟʟᴇᴅ\n\n{str(e)}"
                     )
                 except:
                     pass
