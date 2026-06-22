@@ -33,7 +33,6 @@
 - 🤖 Multi Upload Bot Support ("/ub")
 - 📥 Real-time download progress
 - 📤 Real-time upload progress
-- 🎥 Automatic video thumbnail generation
 - 📦 Personal dump channel support
 - 🔒 Force subscribe system
 - 🚫 User ban & unban system
@@ -45,8 +44,6 @@
 - ❌ Task cancellation support
 - 💾 MongoDB database integration
 - ⚡ Fast and reliable processing
-- 📱 Mobile-friendly interface
-- 🛡️ Admin control panel
 - 📜 Bot activity logging
 - 🎊 Alive Bot Checker
 - 🚀 24/7 deployment support
@@ -172,7 +169,7 @@ After adding monitor click:
 ## Fork and ⭐ this repo 
 <p align="center">
   If you like this bot, give it a ⭐ on GitHub to support the project!  
-  <a href="https://github.com/MD-Developer-yt/Rename-Bot-2GB" target="_blank">
+  <a href="https://github.com/MohammedDev-yt/Rename-Bot-2GB" target="_blank">
   </a>
 </p>
 # ᴅᴏɴ'ᴛ ʀᴇᴍᴏᴠᴇ ᴍʏ ᴄʀᴇᴅɪᴛ...
