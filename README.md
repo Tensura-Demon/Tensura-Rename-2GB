@@ -84,12 +84,12 @@ see_suffix - ᴠɪᴇᴡ sᴜғғɪx.
 del_suffix - ᴅᴇʟᴇᴛᴇ sᴜғғɪx.
 metadata - sᴇᴛ ᴠɪᴅᴇᴏ/ᴀᴜᴅɪᴏ ᴍᴇᴛᴀᴅᴀᴛᴀ.
 see_metadata - ᴛᴏ sᴇᴇ ʏᴏᴜʀ ᴄᴜsᴛᴏᴍ ᴍᴇᴛᴀᴅᴀᴛᴀ
+renamed - ᴛᴏ ᴠɪᴇᴡ ʏᴏᴜʀ ʀᴇɴᴀᴍᴇᴅ sᴛᴀᴛs
 view_thumb - ᴠɪᴇᴡ ᴛʜᴜᴍʙɴᴀɪʟ.
 del_thumb - ᴅᴇʟᴇᴛᴇ ᴛʜᴜᴍʙɴᴀɪʟ.
 setdump - sᴇᴛ ᴅᴜᴍᴘ ᴄʜᴀɴɴᴇʟ.
 chkdump - ᴄʜᴇᴄᴋ ᴅᴜᴍᴘ ᴄʜᴀɴɴᴇʟ.
 deldump - ᴅᴇʟᴇᴛᴇ ᴅᴜᴍᴘ ᴄʜᴀɴɴᴇʟ.
-renamed - ᴛᴏ ᴠɪᴇᴡ ʏᴏᴜʀ ʀᴇɴᴀᴍᴇᴅ sᴛᴀᴛs
 leaderboard - Sʜᴏᴡ ᴛᴏᴘ ᴜsᴇʀs
 info - Sʜᴏᴡ ᴜsᴇʀ ɪɴғᴏ
 donate - Dᴏɴᴀᴛɪᴏɴ ɪɴғᴏʀᴍᴀᴛɪᴏɴ
@@ -105,7 +105,34 @@ status - ᴄʜᴇᴄᴋ ʙᴏᴛ sᴛᴀᴛᴜs [Oᴡɴᴇʀ Oɴʟʏ]
 logs - ᴠɪᴇᴡ ʙᴏᴛ ʟᴏɢs (ᴀᴅᴍɪɴ).
 broadcast - sᴇɴᴅ ᴍᴇssᴀɢᴇ ᴛᴏ ᴀʟʟ ᴜsᴇʀs [Oᴡɴᴇʀ Oɴʟʏ]
 ```
-----
+
+<details>
+<summary><h3>
+- <b> ᴅᴇᴘʟᴏʏᴍᴇɴᴛ </b>
+</h3></summary>
+
+<h3 align="center">
+    ─「 ᴅᴇᴩʟᴏʏ ᴏɴ ʀᴇɴᴅᴇʀ 」─
+</h3>
+<p align="center">
+<a href="https://render.com/deploy?repo=https://github.com/MohammedDev-yt/Rename-Bot-2GB">
+<img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
+</a>
+</p>
+
+<h3 align="center">
+    ─「 ᴅᴇᴩʟᴏʏ ᴏɴ ᴋᴏʏᴇʙ 」─
+</h3>
+<p align="center">
+<a href="https://app.koyeb.com/deploy?type=git&repository=https://github.com/MohammedDev-yt/Rename-Bot-2GB">
+<img src="https://img.shields.io/badge/Deploy%20on%20Koyeb-121212?style=for-the-badge&logo=koyeb" alt="Deploy on Koyeb">
+</a>
+</p>
+
+</details>
+
+---
+
 <details><summary>How To Keep Your Bot Alive</summary>
 <br>
 <b>Use these settings while deploying on Render:</b>
@@ -144,18 +171,7 @@ After adding monitor click:
 <br><br>
 ✅ Your bot will stay alive 24/7.
 </details>
------
-<details>
-<summary><h3>
-- <b> ᴅᴇᴘʟᴏʏᴍᴇɴᴛ </b>
-</h3></summary>
-<h3 align="center">
-    ─「 ᴅᴇᴩʟᴏʏ ᴏɴ ʀᴇɴᴅᴇʀ 」─
-</h3>
-<p align="center"><a href="https://render.com/deploy?repo=https://github.com/MD-Developer-yt/Rename-Bot-2GB">
-<img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
-</a></p>
-</details>
+---
 
 ═★═★═★═ **🏆 Credits** ═★═★═★═  
 
