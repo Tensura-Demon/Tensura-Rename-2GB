@@ -1042,7 +1042,7 @@ async def renamed(_, msg):
 """
 
     await msg.reply_text(text)
-    
+
 # -------- LEADERBOARD DATABASE -------- #
 
 async def update_leaderboard(user_id):
@@ -1133,7 +1133,7 @@ async def stats(_, msg):
 """
 
     await temp.edit_text(text)
-    
+
 # ------------------------- #
 # Don't Remove Credit 
 # Owner @Mr_Mohammed_29
@@ -1675,7 +1675,7 @@ async def cb(_, query: CallbackQuery):
             user_id = query.from_user.id  
 
             await query.message.delete()
-            
+
             user_mode[user_id] = data
 
             if await is_banned(user_id):
@@ -1830,14 +1830,20 @@ async def cb(_, query: CallbackQuery):
                 thumb_path = None
 
         # -------- UPLOAD START -------- #
-
             await progress_msg.edit_text(
                 "📤 Uᴘʟᴏᴀᴅɪɴɢ sᴛᴀʀᴛᴇᴅ..."
             )
 
             duration, width, height = (0, 0, 0)
 
-            duration, width, height = get_video_metadata(final)
+            if mode == "video":
+                try:
+                    duration, width, height = await asyncio.to_thread(
+                          get_video_metadata,
+                          final
+                    )
+                except Exception as e:
+                    print("Metadata Error:", e)
 
             start_time = time.time()
             last_edit = 0
@@ -1910,10 +1916,10 @@ async def cb(_, query: CallbackQuery):
                     print("ᴘᴇʀsᴏɴᴀʟ ʙᴏᴛ ᴇʀʀᴏʀ:", e)
 
                     upload_client = bot
-                    
+
            # -------- SEND FILE -------- #
             file_size = 0
-                
+
             try:
 
                # -------- VIDEO MODE -------- #
@@ -1934,7 +1940,7 @@ async def cb(_, query: CallbackQuery):
                         progress=prog, 
                         disable_notification=True
                     )
-                    
+
                     try:
                         file_size = os.path.getsize(final)
                     except:
@@ -1973,7 +1979,7 @@ async def cb(_, query: CallbackQuery):
                                 height=height,
                                 supports_streaming=True,
                             )
-                            
+
                             await progress_msg.delete()
 
                         except Exception as e:
@@ -2146,7 +2152,7 @@ async def leaderboard(_, msg):
         text,
         reply_markup=buttons
     )
-    
+
 # ---------------- USER INFO ---------------- #
 
 @bot.on_message(filters.private & filters.command("info"))
@@ -2207,7 +2213,7 @@ async def user_info(_, msg):
         text,
         reply_markup=buttons
         )
-    
+
 # ---------------- DONATE ---------------- #
 
 @bot.on_message(filters.private & filters.command("donate"))
