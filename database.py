@@ -119,20 +119,6 @@ async def get_all_users():
 # Owner @Mr_Mohammed_29 
 # ------------------------- #
 
-async def get_premium_status(uid):
-    user = await get_user(uid)
-
-    if not user:
-        return False
-
-    return user.get("premium", False)
-
-# ------------------------- #
-# Don't Remove Credit 
-# Ask Doubt @AU_Bot_Discussion 
-# Owner @Mr_Mohammed_29 
-# ------------------------- #
-
 async def setup_database():
     print("Dᴀᴛᴀʙᴀsᴇ Cᴏɴɴᴇᴄᴛᴇᴅ ✅")
 
@@ -180,7 +166,7 @@ async def increase_bot_upload(user_id, bot_index=0):
                 f"bots.{bot_index}.uploads": 1
             },
             "$set": {
-                "last_used": "Just now"
+                "last_used": time.strftime("[%A, %d-%m-%Y %I:%M:%S %p]")
             }
         }
     )
