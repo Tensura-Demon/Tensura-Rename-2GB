@@ -370,7 +370,7 @@ async def free_mode(client, message):
         "✅ Fʀᴇᴇ Mᴏᴅᴇ Eɴᴀʙʟᴇᴅ\n\n ○ Nᴏᴡ Usᴇʀs Cᴀɴ Usᴇ Tʜᴇ Bᴏᴛ ○"
     )
 
-
+# --------------- DISABLE MODE --------------- #
 @bot.on_message(filters.private & filters.command("disablemode"))
 async def disable_mode(client, message):
 
@@ -467,7 +467,7 @@ async def start(client, message):
 
         # ---------------- MAIN MESSAGE ----------------
         try:
-            await message.reply_text(
+            start_msg = await message.reply_text(
                 get_home_text(user),
                 reply_markup=get_home_buttons(),
                 parse_mode=ParseMode.HTML
@@ -475,15 +475,47 @@ async def start(client, message):
         except Exception as e:
             print("HOME UI ERROR:", e)
 
-            # 🔥 fallback if buttons fail
             await message.reply_text(
                 get_home_text(user),
                 reply_markup=get_home_buttons(),
                 parse_mode=ParseMode.HTML
             )
-
     except Exception as e:
         print("START ERROR:", e)
+
+# ---------------- PRIVACY ---------------- #
+
+@bot.on_message(filters.command("privacy"))
+async def privacy(client, message):
+
+    buttons = InlineKeyboardMarkup([
+    [
+        InlineKeyboardButton(
+            "• ᴅᴇᴠᴇʟᴏᴘᴇʀ •",
+            url="https://t.me/Mr_Mohammed_29"
+        ),
+        InlineKeyboardButton(
+            "• ᴄʟᴏsᴇ •",
+            callback_data="close"
+        )
+    ]
+ ])
+    await message.reply_photo(
+        photo="https://graph.org/file/ffdbc01d09855874311b1-5f3f1eae52d984db3d.jpg",
+        caption="""
+ʜᴇʀᴇ ɪs ᴛʜᴇ ᴘʀɪᴠᴀᴄʏ & ᴘᴏʟɪᴄʏ ᴏғ ᴛʜᴇ ʙᴏᴛ:
+
+➲ ᴡᴇ ᴏɴʟʏ ꜱᴛᴏʀᴇ ᴜꜱᴇʀ ɪᴅꜱ ᴀɴᴅ ɴᴏᴛʜɪɴɢ ᴇʟꜱᴇ.
+
+➲ ʏᴏᴜʀ ғɪʟᴇꜱ ᴀʀᴇ ᴜꜱᴇᴅ ᴏɴʟʏ ғᴏʀ ᴛʜᴇ ʙᴏᴛ ꜰᴜɴᴄᴛɪᴏɴꜱ.
+
+➲ ᴡᴇ ᴅᴏ ɴᴏᴛ ꜱʜᴀʀᴇ ʏᴏᴜʀ ᴅᴀᴛᴀ ᴡɪᴛʜ ᴀɴʏᴏɴᴇ.
+
+ʏᴏᴜʀ ᴘʀɪᴠᴀᴄʏ ɪꜱ ᴏᴜʀ ᴘʀɪᴏʀɪᴛʏ ❤️
+""",
+        reply_markup=buttons
+    )
+      
 # ---------------- CAPTION ----------------
 @bot.on_message(filters.command("set_caption"))
 async def set_caption(_, msg):
@@ -864,10 +896,46 @@ async def add_bot(_, msg):
 
     token = msg.command[1]
 
+    try:
+        test = Client(
+            f"test_{user_id}",
+            api_id=API_ID,
+            api_hash=API_HASH,
+            bot_token=token,
+            in_memory=True
+        )
+
+        await test.start()
+
+        me = await test.get_me()
+
+        await test.stop()
+
+    except Exception as e:
+        return await msg.reply(f"‼️ Iɴᴠᴀʟɪᴅ Bᴏᴛ Tᴏᴋᴇɴ ,Tᴏᴋᴇɴ Sʜᴏᴜʟᴅ Bᴇ Fʀᴏᴍ @BotFather\n{e}")
+
+
+    await db.bots.update_one(
+        {"user_id": user_id},
+        {
+            "$push": {
+                "bots": {
+                    "username": me.username,
+                    "token": token,
+                    "uploads": 0
+                } 
+            },
+            "$set": {
+                "last_used": time.strftime("[%A, %d-%m-%Y %I:%M:%S %p]")
+            }
+        },
+        upsert=True
+    )
+    
     upload_bots[user_id] = token
 
     await msg.reply(
-        "✅️ Pᴇʀsᴏɴᴀʟ Uᴘʟᴏᴀᴅ Bᴏᴛ Sᴀᴠᴇᴅ"
+        f"✅️ Pᴇʀsᴏɴᴀʟ Uᴘʟᴏᴀᴅ Bᴏᴛ Sᴀᴠᴇᴅ\n\n🤖 @{me.username}"
     )
 
 
@@ -1041,8 +1109,10 @@ async def renamed(_, msg):
 └──────── °∘ ❉ ∘° ─────────┘
 """
 
-    await msg.reply_text(text)
-
+    await msg.reply_photo(
+        photo="https://graph.org/file/f4a2dc831f6a6a988d450-e2f741765425dabb79.jpg",
+        caption=text
+    )
 # -------- LEADERBOARD DATABASE -------- #
 
 async def update_leaderboard(user_id):
@@ -1148,7 +1218,7 @@ async def addedbots(_, msg):
         return await msg.reply_text("❌ ᴏɴʟʏ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ.")
 
     user_id = msg.from_user.id
-    data = await get_user_bots(user_id) or {}
+    data = await db.bots.find_one({"user_id": user_id}) or {}
 
     bots = data.get("bots", [])
     active_index = data.get("active", 0)
@@ -1185,7 +1255,10 @@ async def addedbots(_, msg):
         f"➤ ʟᴀsᴛ ᴜsᴇᴅ: {last_used}"
     )
 
-    await msg.reply_text(text)
+    await msg.reply_photo(
+        photo="https://graph.org/file/26cccf142db47cbcc489e-5d5b36c222d0b2d898.jpg",
+        caption=text
+    )
 
 # ----------- BAN | UNBAN -------------- #
 
@@ -1239,6 +1312,7 @@ async def unban(_, msg):
     log_event(f"User unbanned: {uid}")
 
     await msg.reply(f"✅ 𝗨𝘀𝗲𝗿 `{uid}` 𝗨𝗻𝗯𝗮𝗻𝗻𝗲𝗱 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆")
+    
 # ------------LOGS------------- #
 @bot.on_message(filters.command("logs"))
 async def logs(_, msg):
@@ -1295,6 +1369,7 @@ async def broadcast(_, msg):
         await msg.reply(f"❌ 𝗕𝗿𝗼𝗮𝗱𝗰𝗮𝘀𝘁 𝗘𝗿𝗿𝗼𝗿: {e}")
 
 # ---------- Callback --------------- #
+
 @bot.on_callback_query()
 async def cb(_, query: CallbackQuery):
 
@@ -1838,12 +1913,9 @@ async def cb(_, query: CallbackQuery):
 
             if mode == "video":
                 try:
-                    duration, width, height = await asyncio.to_thread(
-                          get_video_metadata,
-                          final
-                    )
+                    duration, width, height = get_video_metadata(final)
                 except Exception as e:
-                    print("Metadata Error:", e)
+                    print("Mᴇᴛᴀᴅᴀᴛᴀ Aᴘᴘʟɪᴇᴅ Fᴀɪʟᴇᴅ ᴏʀ Eʀʀᴏʀ 👾....:", e)
 
             start_time = time.time()
             last_edit = 0
