@@ -1245,8 +1245,7 @@ async def addedbots(_, msg):
         )
 
     active_bot = bots[active_index].get("username", "None")
-    last_used = data.get("last_used", "Unknown")
-
+    last_used = data.get("last_used", "Never Used")
     text += (
         "━━━━━━━━━━━━━━━\n"
         f"➤ ᴀᴄᴛɪᴠᴇ ʙᴏᴛ: @{active_bot}\n"
