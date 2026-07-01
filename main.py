@@ -803,6 +803,7 @@ async def del_dump(_, msg):
 
 upload_modes = {}
 upload_bots = {}
+personal_clients = {}
 
 @bot.on_message(filters.command("ub"))
 async def upload_settings(_, msg):
@@ -946,12 +947,36 @@ async def del_bot(_, msg):
 
     user_id = msg.from_user.id
 
-    if user_id in upload_bots:
+    token = upload_bots.get(user_id)
+
+    if token:
+
+        # remove from memory
         del upload_bots[user_id]
 
-    await msg.reply(
-        "‼️ Pᴇʀsᴏɴᴀʟ Uᴘʟᴏᴀᴅ Bᴏᴛ Dᴇʟᴇᴛᴇᴅ "
-    )
+        # reset upload mode
+        upload_modes[user_id] = "main"
+
+        # remove from database
+        await db.bots.update_one(
+            {"user_id": user_id},
+            {
+                "$pull": {
+                    "bots": {
+                        "token": token
+                    }
+                }
+            }
+        )
+
+        await msg.reply(
+            "‼️ Pᴇʀsᴏɴᴀʟ Uᴘʟᴏᴀᴅ Bᴏᴛ Dᴇʟᴇᴛᴇᴅ"
+        )
+
+    else:
+        await msg.reply(
+            "❌ Nᴏ Pᴇʀsᴏɴᴀʟ Bᴏᴛ Sᴇᴛ"
+        )
 
 # ---------------- THUMB ----------------
 @bot.on_message(filters.photo)
@@ -1004,20 +1029,34 @@ async def choose(_, msg):
         ]
     ])
 
-    text = """
-<b>𝗦𝗲𝗹𝗲𝗰𝘁 𝗧𝗵𝗲 𝗢𝘂𝘁𝗽𝘂𝘁 𝗙𝗶𝗹𝗲 𝗧𝘆𝗽𝗲</b>
-
-Pᴏᴡᴇʀᴇᴅ Bʏ : <a href="https://t.me/Anime_UpdatesAU">Aɴɪᴍᴇ Uᴘᴅᴀᴛᴇs AU</a>
-Oᴡɴᴇʀ: <a href="https://t.me/Mr_Mohammed_29">ᴍᴏʜᴀᴍᴍᴇᴅ</a>
-"""
-
-    await msg.reply_photo(
-         photo="https://graph.org/file/51f7bf1769486242f1180-03990f535eec7e1aba.jpg",
-         caption=text,
-         reply_markup=buttons,
-         parse_mode=ParseMode.HTML
+    file_name = (
+        msg.document.file_name
+        if msg.document
+        else msg.video.file_name
     )
 
+    text = f"""
+    <b>Fɪʟᴇ Nᴀᴍᴇ:</b> <code>{file_name}</code>
+
+ <b>𝗦𝗲𝗹𝗲𝗰𝘁 𝗧𝗵𝗲 𝗢𝘂𝘁𝗽𝘂𝘁 𝗙𝗶𝗹𝗲 𝗧𝘆𝗽𝗲</b>
+
+ Pᴏᴡᴇʀᴇᴅ Bʏ : <a href="https://t.me/Anime_UpdatesAU">Aɴɪᴍᴇ Uᴘᴅᴀᴛᴇs AU</a>
+    """
+
+    if msg.document:
+        await msg.reply_text(
+            text,
+            reply_markup=buttons,
+            parse_mode=ParseMode.HTML
+        )
+
+    elif msg.video:
+        await msg.reply_text(
+            text,
+            reply_markup=buttons,
+            parse_mode=ParseMode.HTML
+        )
+        
 #---------- Cancel ------------#
 @bot.on_message(filters.command("cancel"))
 async def cancel_cmd(_, msg):
@@ -1221,9 +1260,16 @@ async def addedbots(_, msg):
     data = await db.bots.find_one({"user_id": user_id}) or {}
 
     bots = data.get("bots", [])
+
+    # remove empty bots
+    bots = [b for b in bots if b.get("username") and b.get("token")]
     active_index = data.get("active", 0)
 
     if not bots:
+        await db.bots.update_one(
+            {"user_id": user_id},
+            {"$set": {"bots": []}}
+        )
         return await msg.reply_text("❌ ɴᴏ ʙᴏᴛs ᴀᴅᴅᴇᴅ ʏᴇᴛ.")
 
     total_uploads = 0
@@ -1695,8 +1741,21 @@ async def cb(_, query: CallbackQuery):
 
             user_id = query.from_user.id
 
-            if user_id in upload_bots:
-                del upload_bots[user_id]
+            # remove memory
+            upload_bots.pop(user_id, None)
+  
+            # reset mode
+            upload_modes[user_id] = "main"
+
+            # remove from database
+            await db.bots.update_one(
+                {"user_id": user_id},
+                {
+                    "$set": {
+                        "bots": []
+                    }
+                }
+            )
 
             await query.answer(
                 "Personal Upload Bot Deleted"
@@ -1704,7 +1763,7 @@ async def cb(_, query: CallbackQuery):
 
             await query.message.reply_text(
                 "‼️ Pᴇʀsᴏɴᴀʟ Uᴘʟᴏᴀᴅ Bᴏᴛ Dᴇʟᴇᴛᴇᴅ"
-            )
+            ) 
 
         elif data == "close":
             await query.message.delete()
@@ -1799,7 +1858,10 @@ async def cb(_, query: CallbackQuery):
 
                 last_edit = now
                 percent, speed, eta = calc_progress(current, total, start_time)
-
+                
+                if current >= total:
+                    percent = 100
+    
                 filled = int(percent / 10)
                 bar = "⬢" * filled + "⬡" * (10 - filled)
 
@@ -1962,6 +2024,7 @@ async def cb(_, query: CallbackQuery):
             # -------- SELECT UPLOAD CLIENT -------- #
 
             upload_client = bot
+            personal_bot = None
 
             mode_selected = upload_modes.get(user_id, "main")
 
@@ -1982,6 +2045,8 @@ async def cb(_, query: CallbackQuery):
 
                     await personal_bot.start()
                     upload_client = personal_bot
+
+                    personal_clients[user_id] = personal_bot
 
                 except Exception as e:
                     print("ᴘᴇʀsᴏɴᴀʟ ʙᴏᴛ ᴇʀʀᴏʀ:", e)
@@ -2146,11 +2211,13 @@ async def cb(_, query: CallbackQuery):
                 except Exception:
                     pass
                 # -------- STOP PERSONAL BOT -------- #
-                if token:
+
+                if personal_bot:
                     try:
                         await personal_bot.stop()
-                    except:
-                        pass
+                        print("Personal bot stopped")
+                    except Exception as e:
+                        print("Stop error:", e)
 
             # -------- STATS COUNTER -------- #
 
