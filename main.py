@@ -363,8 +363,8 @@ bot = Client(
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
-    workers=45,
-    sleep_threshold=18,
+    workers=40,
+    sleep_threshold=15,
     max_concurrent_transmissions=7
 )
 
