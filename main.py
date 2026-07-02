@@ -2095,7 +2095,7 @@ async def cb(_, query: CallbackQuery):
                 now = time.time()
 
                 # prevent too frequent edits
-                if now - last_edit < 2:
+                if now - last_edit < 1:
                     return
 
                 last_edit = now
@@ -2253,7 +2253,7 @@ async def cb(_, query: CallbackQuery):
                 now = time.time()
 
                 # prevent spam edits
-                if now - last_edit < 2:
+                if now - last_edit < 1:
                     return
 
                 last_edit = now
